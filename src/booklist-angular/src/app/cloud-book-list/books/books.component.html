@@ -1,0 +1,138 @@
+<page-header [title]="l(Books)"></page-header>
+<nz-card [nzBordered]="false">
+  <!-- 搜索 -->
+  <div class="mb-md">
+    <nz-row nzGutter="8">
+      <nz-col nzSpan="24">
+        <nz-form-item>
+          <nz-form-control>
+            <nz-input-group nzSearch [nzSuffix]="suffixIconSearchButton">
+              <input type="text" nz-input [(ngModel)]="filterText" id="filterText" name="filterText" (keyup.enter)="refresh()"
+                placeholder="搜索" />
+              <ng-template #suffixIconSearchButton>
+                <button (click)="refresh()" nz-button nzType="primary" nzSearch type="submit">
+                  <i class="anticon anticon-search"></i>
+                </button>
+              </ng-template>
+            </nz-input-group>
+          </nz-form-control>
+        </nz-form-item>
+      </nz-col>
+    </nz-row>
+  </div>
+  <!-- 添加删除 -->
+  <div class="mb-md">
+    <nz-row nzGutter="8">
+      <nz-col nzMd="20" nzSm="12" class="btn-gutter">
+        <button (click)="createOrEdit()" nz-button nzType="primary" *ngIf="isGranted('Pages.Book.Create')">
+          <i class="anticon anticon-plus"></i><span>{{ l('Create') }}</span>
+        </button>
+        <button (click)="batchDelete()" nz-button nzType="danger" *ngIf="isGranted('Pages.Book.BatchDelete')">
+          <i class="anticon anticon-delete"></i><span>{{ l('BatchDelete') }}</span>
+        </button>
+      </nz-col>
+    </nz-row>
+  </div>
+  <!-- 复选框提供的刷新，清空功能点 -->
+  <div class="mb-md">
+    <nz-row nzGutter="8">
+      <nz-alert nzType="info" [nzMessage]="message" [nzShowIcon]="true"></nz-alert>
+      <ng-template #message>
+        <span [innerHtml]="l('GridSelectedXItemsTips', selectedDataItems.length)"></span>
+        <a (click)="restCheckStatus(dataList)" class="ml-md">{{
+          l('ClearEmpty')
+          }}</a>
+        <nz-divider nzType="vertical"></nz-divider>
+        <a (click)="refresh()">{{ l('Refresh') }}</a>
+      </ng-template>
+    </nz-row>
+  </div>
+
+  <!-- 实体表格内容呈现 -->
+  <nz-row class="my-md">
+    <nz-table #ajaxTable [nzData]="dataList" [nzPageSize]="pageSize" [(nzPageIndex)]="pageNumber" [nzTotal]="totalItems"
+      [nzLoading]="isTableLoading" (nzPageIndexChange)="pageNumberChange()" (nzPageSizeChange)="refresh()"
+      [nzShowSizeChanger]="true" [nzShowQuickJumper]="true" [nzNoResult]="noDataTemplate" [nzShowTotal]="showTotalTemplate"
+      [nzFrontPagination]="false">
+      <!-- 暂无数据组件 -->
+      <ng-template #noDataTemplate>
+        <no-data></no-data>
+      </ng-template>
+      <!-- 分页增强的内容 -->
+      <ng-template #showTotalTemplate let-total let-range="range">
+        {{
+        l(
+        'GridFooterDisplayText',
+        pageNumber,
+        totalPages,
+        total,
+        range[0],
+        range[1]
+        )
+        }}
+      </ng-template>
+      <!-- 表头内容 -->
+      <thead (nzSortChage)="gridSort($event)">
+        <tr>
+
+          <th nzShowCheckbox [(nzChecked)]="allChecked" [nzDisabled]="allCheckboxDisabled" [nzIndeterminate]="checkboxIndeterminate"
+            (nzCheckedChange)="checkAll($event)"></th>
+
+          <th nz-th nzShowSort nzSortKey="ImgUrl" nzWidth="100px">
+            {{ l('ImgUrl') }}
+          </th>
+          <th nz-th nzShowSort nzSortKey="BookName" nzWidth="100px">
+            {{ l('BookName') }}
+          </th>
+          <th nz-th nzShowSort nzSortKey="Author" nzWidth="100px">
+            {{ l('Author') }}
+          </th>
+          <th nz-th nzShowSort nzSortKey="Intro" nzWidth="100px">
+            {{ l('Intro') }}
+          </th>
+          <th nzWidth="230px" class="text-center">
+            <span>{{ l('Actions') }}</span>
+          </th>
+        </tr>
+      </thead>
+      <!-- 表格内容 -->
+      <tbody>
+        <tr *ngFor="let item of ajaxTable.data">
+          <!-- 全选框 -->
+          <td nzShowCheckbox [(nzChecked)]="item.checked" (nzCheckedChange)="refreshCheckStatus(dataList)"></td>
+          <td><img [src]="item.imgUrl" /></td>
+          <td>
+            <ellipsis lines="1"><span nz-tooltip [nzTitle]="item.bookName">{{
+                item.bookName
+                }}</span></ellipsis>
+          </td>
+          <td>
+            <ellipsis lines="1"><span nz-tooltip [nzTitle]="item.author">{{
+                item.author
+                }}</span></ellipsis>
+          </td>
+          <td>
+            <ellipsis lines="1"><span nz-tooltip [nzTitle]="item.intro">{{
+                item.intro
+                }}</span></ellipsis>
+          </td>
+          <!-- 操作 -->
+          <td>
+            <ng-container *ngIf="isGranted('Pages.Book.Edit')">
+              <a (click)="createOrEdit(item.id)">
+                <i class="anticon anticon-edit mr-sm"></i><span>{{l('Edit')}}</span>
+              </a>
+            </ng-container>
+            <nz-divider nzType="vertical"></nz-divider>
+            <ng-container *ngIf="isGranted('Pages.Book.Delete')">
+              <nz-popconfirm nzTitle="当前操作无法恢复，确定删除信息？" (nzOnConfirm)="delete(item)" nzOkText="确定" nzCancelText="取消">
+                <a nz-popconfirm><i class="anticon anticon-delete"></i><span>{{l('Delete')}}</span></a>
+              </nz-popconfirm>
+
+            </ng-container>
+          </td>
+        </tr>
+      </tbody>
+    </nz-table>
+  </nz-row>
+</nz-card>

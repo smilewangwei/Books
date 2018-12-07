@@ -1,0 +1,63 @@
+<form nz-form #validateForm="ngForm" (ngSubmit)="submitForm()" nzLayout="horizontal" autocomplete="off">
+  <!-- 模态框头部 -->
+  <div class="modal-header">
+    <div class="modal-title">
+      <i class="anticon anticon-medicine-box mr-sm"></i>
+      <span *ngIf="entity.id">{{l('Edit')}}</span>
+      <span *ngIf="!entity.id">{{l('Create')}}</span>
+    </div>
+  </div>
+
+  <fieldset>
+
+    <nz-form-item nz-row>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="imgUrl">{{l('BookImgUrl')}}</nz-form-label>
+      <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+        <input nz-input name="imgUrl" #imgUrl="ngModel" id="imgUrl" [(ngModel)]="entity.imgUrl" [placeholder]="l('BookImgUrl')">
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzRequired nzFor="bookName">{{l('bookName')}}</nz-form-label>
+      <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+        <input nz-input name="bookName" #bookName="ngModel" [(ngModel)]="entity.bookName" [placeholder]="l('bookName')">
+        <!-- 校验 -->
+        <nz-form-explain *ngIf="bookName.control.dirty&&bookName.control.errors">
+          <ng-container *ngIf="bookName.control.hasError('required')">{{l('CanNotNull')}}</ng-container>
+        </nz-form-explain>
+
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="author">{{l('BookImgUrl')}}</nz-form-label>
+      <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+        <input nz-input name="author" #author="ngModel" [(ngModel)]="entity.author" [placeholder]="l('author')">
+        <!-- 校验内容 -->
+        <nz-form-explain *ngIf="author.control.dirty&&author.control.errors">
+          <ng-container *ngIf="author.control.hasError('required')">{{l('CanNotNull')}}</ng-container>
+        </nz-form-explain>
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="intro">{{l('intro')}}</nz-form-label>
+      <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+        <input nz-input name="intro" #intro="ngModel" [(ngModel)]="entity.intro" [placeholder]="l('intro')">
+      </nz-form-control>
+    </nz-form-item>
+    <nz-form-item nz-row>
+      <nz-form-label [nzSm]="6" [nzXs]="24" nzFor="priceUrl">{{l('priceUrl')}}</nz-form-label>
+      <nz-form-control nz-col [nzSm]="14" [nzXs]="24" nzHasFeedback>
+        <input nz-input name="priceUrl" #priceUrl="ngModel" [(ngModel)]="entity.priceUrl" [placeholder]="l('priceUrl')">
+      </nz-form-control>
+    </nz-form-item>
+  </fieldset>
+
+  <!-- 模态框底部内容 -->
+  <div class="modal-footer">
+    <button nz-button [nzType]="'default'" type="button" (click)="close()" [disabled]="saving">
+      <i class="anticon anticon-close-circle-o"></i> {{l("Cancel")}}
+    </button>
+    <button nz-button [nzType]="'primary'" type="submit" [disabled]="!validateForm.form.valid|| saving" [nzLoading]="saving">
+      <i class="anticon anticon-save"></i> {{l("Save")}}
+    </button>
+  </div>
+</form>
