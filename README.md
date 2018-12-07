@@ -11,13 +11,6 @@
 
 # 课程推荐信息：
 
-# 教程
-## 收费课程
-- 网易课程地址：[https://study.163.com/provider/400000000309007/index.htm?share=2&shareId=400000000309007](https://study.163.com/provider/400000000309007/index.htm?share=2&shareId=400000000309007)
-## 免费公开课：
-- ABP的公开课地址：[https://study.163.com/course/introduction/1005208064.htm](https://study.163.com/course/introduction/1005208064.htm)
-- .NET CORE 开发框架ABP的系统性学习路线图:https://www.bilibili.com/video/av31334354
-- 在10分钟内上手Angular - Google的前后端分离框架快速体验  https://www.bilibili.com/video/av31231940
 
 
 ## 关于 52ABP 
@@ -72,13 +65,6 @@
 码云：[国内镜像](https://gitee.com/yoyocms/LTMCompanyNameFree.YoyoCmsTemplate)
 
 Github:[主仓库](https://github.com/52ABP/LTMCompanyNameFree.YoyoCmsTemplate) 
-# 联系我们
-
-
-**欢迎关注角落的白板报**
- 
-
-![联系我们](http://upload-images.jianshu.io/upload_images/1979022-a6ae2876aeac3cab.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
 
 
 # 前端项目的说明
@@ -102,7 +88,3 @@ Github:[主仓库](https://github.com/52ABP/LTMCompanyNameFree.YoyoCmsTemplate)
 `
   ng generate component persons/create-or-edit-person-modal
 `
-# 关于贡献
-
-以上就是项目的简单说明，以后有时间，再继续给大家交流。也欢迎大家来完善内容。
-[更多内容...](https://github.com/52ABP/Documents/blob/master/52ABP%E5%BC%80%E5%8F%91%E4%BA%BA%E5%91%98%E4%B8%AD%E5%BF%83/52ABP%E5%9B%A2%E9%98%9F%E6%AC%A2%E8%BF%8E%E6%82%A8%E7%9A%84%E5%88%B0%E6%9D%A5.md)
